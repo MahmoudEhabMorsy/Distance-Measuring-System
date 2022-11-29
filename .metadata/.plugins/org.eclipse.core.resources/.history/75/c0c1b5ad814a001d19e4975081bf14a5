@@ -1,0 +1,14 @@
+/*
+ * usonic.h
+ *
+ *  Created on: Oct 12, 2022
+ *      Author: EGYPT
+ */
+
+#ifndef USONIC_H_
+#define USONIC_H_
+#include"std_types.h"
+#define SOUND_SPEED 34000 /*sound speed in cm*/
+#define TIME_OF_INSTRUCTION 0.000001
+
+#endif /* USONIC_H_ */

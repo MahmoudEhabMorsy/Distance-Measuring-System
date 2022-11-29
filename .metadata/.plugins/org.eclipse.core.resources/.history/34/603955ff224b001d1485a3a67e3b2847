@@ -1,0 +1,25 @@
+/*
+ * usonic.h
+ *
+ *  Created on: Oct 12, 2022
+ *      Author: EGYPT
+ */
+
+#ifndef USONIC_H_
+#define USONIC_H_
+#include"std_types.h"
+#define SOUND_SPEED 34000 /*sound speed in cm*/
+#define TIME_OF_INSTRUCTION 0.000001
+#define ERROR_CORRECTION_ACTIVATED 1
+#define OFFSET1 1
+#define OFFSET2 2
+#define OFFSET3 3
+#define OFFSET4 4
+#define OFFSET5 5
+#define OFFSET6 6
+#define OFFSET7 7
+void Ultrasonic_init(void);
+void Ultrasonic_Trigger(void);
+uint16 Ultrasonic_readDistance(void);
+void Ultrasonic_edgeProcessing(void);
+#endif /* USONIC_H_ */

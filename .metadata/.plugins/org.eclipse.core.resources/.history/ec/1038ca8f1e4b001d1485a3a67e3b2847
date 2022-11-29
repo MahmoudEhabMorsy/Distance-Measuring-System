@@ -1,0 +1,59 @@
+/*
+ * usonic.c
+ *
+ *  Created on: Oct 12, 2022
+ *      Author: EGYPT
+ */
+#include"icu.h"
+#include"gpio.h"
+#include"usonic.h"
+#include<util/delay.h>
+
+uint8 g_edgeCount = 0;
+uint16 g_timePulse=0;
+void Ultrasonic_init(void){
+	/* Create configuration structure for ICU driver */
+	Icu_ConfigType Icu_Config = {F_CPU_8,RISING};
+	Icu_init(&Icu_Config);
+	/* Set the Call back function pointer in the ICU driver */
+	Icu_setCallBack(Ultrasonic_edgeProcessing);
+	GPIO_setupPinDirection(PORTB_ID,PIN5_ID,PIN_OUTPUT);
+}
+
+void Ultrasonic_Trigger(void){
+	GPIO_writePin(PORTB_ID,PIN5_ID,LOGIC_HIGH);
+	_delay_us(10);
+	GPIO_writePin(PORTB_ID,PIN5_ID,LOGIC_LOW);
+}
+
+uint16 Ultrasonic_readDistance(void){
+	Ultrasonic_Trigger();
+
+	return (((SOUND_SPEED*g_timePulse)/2)*TIME_OF_INSTRUCTION);
+
+}
+
+void Ultrasonic_edgeProcessing(void){
+	g_edgeCount++;
+	if(g_edgeCount == 1)
+	{
+		/*
+		 * Clear the timer counter register to start measurements from the
+		 * first detected rising edge
+		 */
+		Icu_clearTimerValue();
+		/* Detect falling edge */
+		Icu_setEdgeDetectionType(FALLING);
+	}
+	else if(g_edgeCount == 2)
+	{
+		/* Store the Pulse time value */
+		g_timePulse = Icu_getInputCaptureValue();
+
+		Icu_clearTimerValue();
+		g_edgeCount=0;
+		/* Detect rising edge */
+		Icu_setEdgeDetectionType(RISING);
+	}
+}
+

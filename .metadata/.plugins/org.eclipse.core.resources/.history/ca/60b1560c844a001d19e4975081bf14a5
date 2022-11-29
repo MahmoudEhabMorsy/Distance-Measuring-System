@@ -1,0 +1,18 @@
+/*
+ * Distance_Measuring_System.c
+ *
+ *  Created on: Oct 13, 2022
+ *      Author: EGYPT
+ */
+
+#include"usonic.h"
+#include"lcd.h"
+int main(void){
+	LCD_init();
+	Ultrasonic_init();
+	LCD_displayString("Distance=   cm");
+	while(1){
+		LCD_moveCursor(0,9);
+		LCD_integerToString(Ultrasonic_readDistance());
+	}
+}

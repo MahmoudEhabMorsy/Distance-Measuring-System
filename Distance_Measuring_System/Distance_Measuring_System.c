@@ -1,0 +1,43 @@
+/*
+ * Distance_Measuring_System.c
+ *
+ *  Created on: Oct 13, 2022
+ *      Author: Mahmoud Ehab
+ */
+
+#include"usonic.h"
+#include"lcd.h"
+#include<avr/io.h> /* To use the SREG register */
+#include<util/delay.h>/*To use delay function*/
+
+int main(void){
+	/*Initialize the ultrasonic driver*/
+	Ultrasonic_init();
+	/*activate interrupts*/
+	SREG|=(1<<7);
+	/*Initialize the lcd driver*/
+	LCD_init();
+	/*display Distance=  cm on screen all the time*/
+	LCD_displayString("Distance=   cm");
+
+	while(1){
+		/*always move cursor to that location at start of every loop*/
+		LCD_moveCursor(0,9);
+
+		if(Ultrasonic_readDistance()<10){
+			/*display distance on the screen*/
+		LCD_intgerToString(Ultrasonic_readDistance());
+		LCD_displayString("  ");
+		}
+		else if(Ultrasonic_readDistance()>=10&&Ultrasonic_readDistance()<100){
+			/*display distance on the screen*/
+			LCD_intgerToString(Ultrasonic_readDistance());
+			LCD_displayString(" ");
+		}
+		else{
+			/*display distance on the screen*/
+			LCD_intgerToString(Ultrasonic_readDistance());
+		}
+		_delay_ms(50);
+	}
+}

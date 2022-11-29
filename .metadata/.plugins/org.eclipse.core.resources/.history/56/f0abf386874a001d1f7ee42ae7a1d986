@@ -1,0 +1,17 @@
+/*
+ * usonic.h
+ *
+ *  Created on: Oct 12, 2022
+ *      Author: EGYPT
+ */
+
+#ifndef USONIC_H_
+#define USONIC_H_
+#include"std_types.h"
+#define SOUND_SPEED 34000 /*sound speed in cm*/
+#define TIME_OF_INSTRUCTION 0.000001
+void Ultrasonic_init(void);
+void Ultrasonic_Trigger(void);
+double Ultrasonic_readDistance(void);
+void Ultrasonic_edgeProcessing(void);
+#endif /* USONIC_H_ */
